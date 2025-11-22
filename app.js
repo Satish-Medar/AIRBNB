@@ -28,16 +28,48 @@ app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 
 // // CSP config: allow images and media from same origin and data: URIs
+const scriptSrcUrls = [
+  "'unsafe-inline'",
+  "'self'",
+  "https://cdn.jsdelivr.net",
+  "https://kit.fontawesome.com",
+  "https://cdnjs.cloudflare.com",
+  "https://cdn.maptiler.com", // Maptiler JS/SDK
+];
+const styleSrcUrls = [
+  "'self'",
+  "https://kit-free.fontawesome.com",
+  "https://cdn.jsdelivr.net",
+  "https://fonts.googleapis.com",
+  "https://use.fontawesome.com",
+  "https://cdn.maptiler.com", // Maptiler CSS
+];
+const connectSrcUrls = [
+  "'self'",
+  "https://api.maptiler.com", // Maptiler API endpoints
+];
+const fontSrcUrls = ["https://fonts.gstatic.com", "https://cdn.maptiler.com"];
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "*.cloudinary.com"], // ADDED *.cloudinary.com
-      mediaSrc: ["'self'", "data:"],
-      connectSrc: ["'self'"],
-      // add other directives you use (font-src, frame-src, etc.)
+      defaultSrc: [],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", "blob:"],
+      objectSrc: [],
+      imgSrc: [
+        "'self'",
+        "blob:",
+        "data:",
+        "https://images.unsplash.com",
+        "https://res.cloudinary.com", // Cloudinary images
+        "https://api.maptiler.com",
+      ],
+      fontSrc: ["'self'", ...fontSrcUrls],
+      mediaSrc: ["https://res.cloudinary.com"],
+      childSrc: ["blob:"],
     },
   })
 );

@@ -1,0 +1,146 @@
+body {
+  background-color: pink;
+  font-family: sans-serif;
+}
+.navbar {
+  height: 5rem;
+  background-color: white;
+}
+
+.fa-airbnb {
+  color: #ff385c;
+  font-size: 2.5rem;
+}
+
+.nav-link {
+  color: #222222 !important;
+}
+.soc-links a {
+  text-decoration: none;
+  color: #222222;
+}
+/* .f-links {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.soc-links {
+  width: 100%;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.soc-links a {
+  margin-right: 1rem;
+}
+.soc-links a:hover {
+  text-decoration: underline;
+  color: #222222;
+}*/
+.f-info {
+  height: 6rem;
+  width: 100%;
+  background-color: #ebebeb;
+  /* align-self: center;
+  justify-content: center;
+  align-items: space-evenly;
+  text-align: center; */
+  display: inline-flex;
+  justify-content: center;
+}
+.f-links {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.f-links span {
+  margin-right: 0.5rem;
+}
+
+.soc-links a {
+  margin-right: 0.5rem;
+}
+.soc-links {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.footer a:hover {
+  color: #000 !important;
+}
+
+.footer a {
+  transition: color 0.3s ease;
+  font-size: 0.92rem;
+}
+
+.card-img-top {
+  width: 100% !important;
+
+  object-fit: cover !important;
+  display: block;
+}
+.card-body {
+  padding: 0 !important;
+}
+.card-text {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+a {
+  text-decoration: none !important;
+}
+.header {
+  font-size: larger;
+  font-family: sans-serif;
+  font-weight: 600;
+}
+.card-img-overlay {
+  opacity: 0;
+}
+.card-img-overlay:hover {
+  opacity: 0.2;
+  background-color: white;
+}
+
+.showcard {
+  border: none !important;
+}
+
+.companyName {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ff4c6d;
+}
+.list {
+  color: #222222;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+#map {
+  height: 400px;
+  width: 80vh;
+  border: 2px solid red;
+}
+
+.custom-marker {
+  pointer-events: auto;
+  display: block;
+  will-change: transform;
+  /* optional rounded mask if using background-image */
+  /* border-radius: 50%; */
+}
+
+.marker {
+  display: block;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+}

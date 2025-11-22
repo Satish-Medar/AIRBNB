@@ -1,0 +1,141 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-8 offset-2">
+        <div class="mt-3">
+          <h1>Edit Listing</h1>
+        </div>
+        <form
+          class="mt-3 needs-validation"
+          method="POST"
+          action="/listings/<%=listing._id%>?_method=PUT"
+          enctype="multipart/form-data"
+          novalidate
+        >
+          <input type="hidden" name="_method" value="PUT" />
+          <div class="form-floating mb-4">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingInput"
+              name="listing[title]"
+              placeholder="name@example.com"
+              value="<%=listing.title%>"
+              required
+            />
+            <label for="floatingInput">Title</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter a valid title.</div>
+          </div>
+          <div class="form-floating mb-4">
+            <textarea
+              class="form-control"
+              name="listing[desc]"
+              placeholder="Leave a comment here"
+              id="floatingTextarea2"
+              style="height: 100px"
+              required
+            >
+ <%=listing.desc%></textarea
+            >
+            <label for="floatingTextarea2">Description</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">
+              Please enter a valid description.
+            </div>
+          </div>
+
+          <div class="form-floating mb-4">
+            <input
+              type="file"
+              class="form-control"
+              id="floatingInput4"
+              name="listing[image]"
+              accept="image/*"
+              placeholder="Upload an image"
+            />
+
+            <label for="floatingInput">Image URL</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please Upload a new image.</div>
+          </div>
+
+          <div class="form-floating mb-4">
+            <input
+              type="number"
+              class="form-control"
+              id="floatingInput5"
+              name="listing[price]"
+              placeholder="name@example.com"
+              value="<%=listing.price%>"
+              required
+            />
+            <label for="floatingInput">Price </label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter a valid price.</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label for="floatingInput6" class="form-label"
+                >Enter Location</label
+              >
+              <div class="form-floating mb-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="floatingInput6"
+                  name="listing[location]"
+                  placeholder="name@example.com"
+                  value="<%=listing.location%>"
+                  required
+                />
+                <label for="floatingInput">Location </label>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">
+                  Please enter a valid location.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <label for="floatingInput7" class="form-label"
+                >Enter Country</label
+              >
+              <div class="form-floating mb-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="floatingInput7"
+                  name="listing[country]"
+                  placeholder="name@example.com"
+                  value="<%=listing.country%>"
+                  required
+                />
+                <label for="floatingInput">Country</label>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">
+                  Please enter a valid country.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <button
+                type="button"
+                class="btn btn-secondary w-100"
+                onclick="window.location='/listings/<%=listing._id%>'"
+              >
+                Cancel
+              </button>
+            </div>
+            <div class="col-6">
+              <button type="submit" class="btn btn-success w-100">Edit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>

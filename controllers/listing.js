@@ -77,3 +77,42 @@ module.exports.renderEditForm = async (req, res) => {
 
   res.render("listings/edit.ejs", { listing });
 };
+
+// Update Controller (with geocoding)
+module.exports.updateListing = async (req, res) => {
+  let { id } = req.params;
+
+  // 1. Geocode the updated location
+  const locationString = `${req.body.listing.location}, ${req.body.listing.country}`;
+  const geoData = await maptilerClient.geocoding.forward(locationString);
+
+  let newGeometry;
+  if (geoData?.features?.length) {
+    newGeometry = geoData.features[0].geometry;
+  }
+
+  // 2. Update the Listing document
+  const listing = await List.findByIdAndUpdate(
+    id,
+    { ...req.body.listing }, // Apply all form data
+    { new: true, runValidators: true }
+  );
+
+  // 3. Update Image if a new one was uploaded
+  if (req.file) {
+    listing.image = {
+      url: req.file.path,
+      filename: req.file.filename,
+    };
+  }
+
+  // 4. Update Geometry
+  if (newGeometry) {
+    listing.geometry = newGeometry;
+  }
+
+  await listing.save(); // Save changes including file and geometry
+
+  req.flash("success", "Listing updated successfully!");
+  res.redirect(`/listings/${id}`);
+};

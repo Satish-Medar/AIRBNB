@@ -74,7 +74,7 @@ app.use(
       // --- CRITICAL FIXES FOR MAPS/WORKERS/BLOBS ---
       workerSrc: ["'self'", "blob:", "https://cdn.maptiler.com"], 
       childSrc: ["blob:"], 
-      // ----------------------------------------------
+      // ---------------------------------------------
 
       objectSrc: [],
       imgSrc: [

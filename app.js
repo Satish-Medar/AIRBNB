@@ -28,27 +28,40 @@ app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 
 // // CSP config: allow images and media from same origin and data: URIs
+// app.js (Around line 33, update the variables and the helmet block)
 const scriptSrcUrls = [
   "'unsafe-inline'",
   "'self'",
   "https://cdn.jsdelivr.net",
   "https://kit.fontawesome.com",
-  "https://cdnjs.cloudflare.com",
-  "https://cdn.maptiler.com", // Maptiler JS/SDK
+  "https://cdnjs.cloudflare.com", // Added for font-awesome CSS/fonts
+  "https://cdn.maptiler.com",
 ];
+
 const styleSrcUrls = [
   "'self'",
+  "'unsafe-inline'",
   "https://kit-free.fontawesome.com",
   "https://cdn.jsdelivr.net",
   "https://fonts.googleapis.com",
   "https://use.fontawesome.com",
-  "https://cdn.maptiler.com", // Maptiler CSS
+  "https://cdn.maptiler.com",
+  "https://cdnjs.cloudflare.com", // Added for font-awesome CSS
 ];
+
 const connectSrcUrls = [
   "'self'",
-  "https://api.maptiler.com", // Maptiler API endpoints
+  "https://api.maptiler.com",
+  "https://ka-f.fontawesome.com", // Font Awesome's dedicated asset domain
+  "https://cdnjs.cloudflare.com", // Added based on console errors
 ];
-const fontSrcUrls = ["https://fonts.gstatic.com", "https://cdn.maptiler.com"];
+
+const fontSrcUrls = [
+  "'self'",
+  "https://fonts.gstatic.com",
+  "https://cdn.maptiler.com",
+  "https://ka-f.fontawesome.com", // Font Awesome fonts
+];
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -64,11 +77,11 @@ app.use(
         "blob:",
         "data:",
         "https://images.unsplash.com",
-        "https://res.cloudinary.com", // Cloudinary images
+        "https://res.cloudinary.com",
         "https://api.maptiler.com",
       ],
       fontSrc: ["'self'", ...fontSrcUrls],
-      mediaSrc: ["https://res.cloudinary.com"],
+      mediaSrc: ["https://res.cloudinary.com", "data:"],
       childSrc: ["blob:"],
     },
   })

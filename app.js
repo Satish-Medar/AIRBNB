@@ -30,6 +30,7 @@ app.engine("ejs", ejsMate);
 // // CSP config: allow images and media from same origin and data: URIs
 // app.js (Around line 33, update the variables and the helmet block)
 // app.js (Replace the current variable definitions and helmet block)
+// app.js (The variable definitions around the helmet middleware)
 const scriptSrcUrls = [
   "'unsafe-inline'",
   "'self'",
@@ -59,7 +60,7 @@ const fontSrcUrls = [
   "https://fonts.gstatic.com",
   "https://cdn.maptiler.com",
   "https://ka-f.fontawesome.com",
-  "https://cdnjs.cloudflare.com",
+  "https://cdnjs.cloudflare.com" 
 ];
 
 app.use(
@@ -69,12 +70,13 @@ app.use(
       connectSrc: ["'self'", ...connectSrcUrls],
       scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-      // CRITICAL FIXES FOR MAPS AND WORKERS:
-      workerSrc: ["'self'", "blob:", "https://cdn.maptiler.com"],
-      childSrc: ["blob:"],
-      objectSrc: [],
-      // END CRITICAL FIXES
 
+      // --- CRITICAL FIXES FOR MAPS/WORKERS/BLOBS ---
+      workerSrc: ["'self'", "blob:", "https://cdn.maptiler.com"], 
+      childSrc: ["blob:"], 
+      // ----------------------------------------------
+
+      objectSrc: [],
       imgSrc: [
         "'self'",
         "blob:",

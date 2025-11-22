@@ -29,15 +29,15 @@ app.engine("ejs", ejsMate);
 
 // // CSP config: allow images and media from same origin and data: URIs
 // app.js (Around line 33, update the variables and the helmet block)
+// app.js (Replace the current variable definitions and helmet block)
 const scriptSrcUrls = [
   "'unsafe-inline'",
   "'self'",
   "https://cdn.jsdelivr.net",
   "https://kit.fontawesome.com",
-  "https://cdnjs.cloudflare.com", // Added for font-awesome CSS/fonts
+  "https://cdnjs.cloudflare.com",
   "https://cdn.maptiler.com",
 ];
-
 const styleSrcUrls = [
   "'self'",
   "'unsafe-inline'",
@@ -46,22 +46,20 @@ const styleSrcUrls = [
   "https://fonts.googleapis.com",
   "https://use.fontawesome.com",
   "https://cdn.maptiler.com",
-  "https://cdnjs.cloudflare.com", // Added for font-awesome CSS
+  "https://cdnjs.cloudflare.com",
 ];
-
 const connectSrcUrls = [
   "'self'",
   "https://api.maptiler.com",
-  "https://ka-f.fontawesome.com", // Font Awesome's dedicated asset domain
-  "https://cdnjs.cloudflare.com", // Added based on console errors
+  "https://ka-f.fontawesome.com",
+  "https://cdnjs.cloudflare.com",
 ];
-
 const fontSrcUrls = [
   "'self'",
   "https://fonts.gstatic.com",
   "https://cdn.maptiler.com",
-  "https://ka-f.fontawesome.com", 
-  "https://cdnjs.cloudflare.com" // <-- ADD THIS LINE
+  "https://ka-f.fontawesome.com",
+  "https://cdnjs.cloudflare.com",
 ];
 
 app.use(
@@ -71,8 +69,12 @@ app.use(
       connectSrc: ["'self'", ...connectSrcUrls],
       scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-      workerSrc: ["'self'", "blob:"],
+      // CRITICAL FIXES FOR MAPS AND WORKERS:
+      workerSrc: ["'self'", "blob:", "https://cdn.maptiler.com"],
+      childSrc: ["blob:"],
       objectSrc: [],
+      // END CRITICAL FIXES
+
       imgSrc: [
         "'self'",
         "blob:",
@@ -83,7 +85,6 @@ app.use(
       ],
       fontSrc: ["'self'", ...fontSrcUrls],
       mediaSrc: ["https://res.cloudinary.com", "data:"],
-      childSrc: ["blob:"],
     },
   })
 );

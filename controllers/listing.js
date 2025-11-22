@@ -65,3 +65,15 @@ module.exports.createListing = async (req, res) => {
   req.flash("success", "Listing created successfully!");
   res.redirect("/listings");
 };
+// Render Edit Form
+module.exports.renderEditForm = async (req, res) => {
+  let { id } = req.params;
+  const listing = await List.findById(id).populate("owner"); // Fetch the listing
+
+  if (!listing) {
+    req.flash("error", "Listing not found");
+    return res.redirect("/listings");
+  }
+
+  res.render("listings/edit.ejs", { listing });
+};

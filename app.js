@@ -28,19 +28,19 @@ app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 
 // // CSP config: allow images and media from same origin and data: URIs
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     directives: {
-//       defaultSrc: ["'self'"],
-//       scriptSrc: ["'self'"],
-//       styleSrc: ["'self'", "'unsafe-inline'"], // only if needed
-//       imgSrc: ["'self'", "data:"],
-//       mediaSrc: ["'self'", "data:"],
-//       connectSrc: ["'self'"],
-//       // add other directives you use (font-src, frame-src, etc.)
-//     },
-//   })
-// );
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "*.cloudinary.com"], // ADDED *.cloudinary.com
+      mediaSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"],
+      // add other directives you use (font-src, frame-src, etc.)
+    },
+  })
+);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));

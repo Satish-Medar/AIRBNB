@@ -60,7 +60,8 @@ const fontSrcUrls = [
   "'self'",
   "https://fonts.gstatic.com",
   "https://cdn.maptiler.com",
-  "https://ka-f.fontawesome.com", // Font Awesome fonts
+  "https://ka-f.fontawesome.com", 
+  "https://cdnjs.cloudflare.com" // <-- ADD THIS LINE
 ];
 
 app.use(

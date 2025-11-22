@@ -117,15 +117,12 @@ module.exports.updateListing = async (req, res) => {
   res.redirect(`/listings/${id}`);
 };
 
-// Destroy Controller
-module.exports.destroyListing = async (req, res) => {
+// Delete Controller
+module.exports.deleteListing = async (req, res) => {
+  // <-- RENAME to deleteListing
   let { id } = req.params;
-  // findByIdAndDelete triggers the Mongoose 'findOneAndDelete' middleware
-  // which should handle cascading deletion of reviews if you set it up in the Listing model.
-  let deletedListing = await List.findByIdAndDelete(id);
-
-  // OPTIONAL: If you want to delete the image from Cloudinary on listing deletion,
-  // you would add Cloudinary deletion logic here using the deletedListing.image.filename.
+  // The Mongoose findByIdAndDelete triggers your cascading delete middleware
+  await List.findByIdAndDelete(id);
 
   req.flash("success", "Listing Deleted!");
   res.redirect("/listings");

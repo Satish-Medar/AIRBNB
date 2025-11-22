@@ -59,11 +59,11 @@ const listSchema = new mongoose.Schema({
   // },
 });
 
-listSchema.post("findOneAndDelete", async function (doc) {
-  if (doc) {
-    const Review = mongoose.model("Review");
-    await Review.deleteMany({ _id: { $in: doc.reviews } });
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing) {
+    await Review.deleteMany({ _id: { $in: listing.reviews } });
   }
 });
-const List = mongoose.model("List", listSchema);
+
+const List = mongoose.model("List", listingSchema);
 module.exports = List;

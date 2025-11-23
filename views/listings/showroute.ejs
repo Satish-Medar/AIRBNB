@@ -1,265 +1,429 @@
 <% layout("/layouts/boilerplate") %>
+
 <script>
+  // mapToken and listing are provided server-side already in your previous template
   const mapToken = "<%= process.env.MAPTILER_API_KEY %>";
-  // Render the `listing` object as JSON for the client script.
   const listing = <%- JSON.stringify(listing) %>;
 </script>
 
-<div class="mt-4 mb-4">
-  <div class="d-flex align-items-center mb-2">
-    <a
-      href="/listings"
-      onclick="event.preventDefault(); window.history.back();"
-      class="btn btn-sm btn-outline-secondary me-3"
-      aria-label="Go back to listings"
-      >← Back</a
-    >
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb bg-transparent p-0 mb-2">
-        <li class="breadcrumb-item"><a href="/listings">All Listings</a></li>
-        <li class="breadcrumb-item active" aria-current="page">
-          <%= listing.title %>
-        </li>
-      </ol>
-    </nav>
-  </div>
+<style>
+  /* ---------- Premium modern / glassmorphism styles ---------- */
 
-  <div class="row align-items-center">
-    <div class="col-12 col-md-8">
-      <h2 class="listing-title mb-0"><%= listing.title %></h2>
-      <p class="text-muted owner-info small mt-1">
-        Owned by: <%= listing.owner?.username || 'Unknown' %>
-      </p>
-    </div>
-    <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
-      <span class="price-badge"
-        >₹<%= listing.price ? Number(listing.price).toLocaleString('en-IN') :
-        'N/A' %></span
-      >
-    </div>
-  </div>
-</div>
+  :root{
+    --accent: #ff385c;
+    --muted: #6b7280;
+    --glass-bg: rgba(255,255,255,0.65);
+    --glass-blur: 8px;
+    --card-radius: 14px;
+    --shadow-1: 0 8px 30px rgba(15,23,42,0.08);
+  }
 
-<!-- MAIN CARD -->
-<div class="card showcard w-100 mb-4 shadow-sm">
-  <div class="row g-3 p-3 align-items-start">
-    <!-- LEFT: Gallery -->
-    <div class="col-12 col-lg-7">
-      <div class="mb-3 main-image-wrapper rounded overflow-hidden">
-        <img
-          src="<%= listing.image?.url %>"
-          class="img-fluid main-image"
-          loading="lazy"
-          alt="<%= listing.title %>"
-        />
-      </div>
+  .page-wrap {
+    padding: 36px 20px;
+    background: linear-gradient(180deg,#fbfbfd 0%, #f7f8fb 100%);
+    min-height: 100vh;
+  }
 
-      <div class="row gx-2">
-        <div class="col-3">
-          <img
-            src="<%= listing.image?.url %>"
-            class="img-thumbnail thumb-img"
-            alt="thumb"
-          />
-        </div>
-        <div class="col-3">
-          <img
-            src="<%= listing.image?.url %>"
-            class="img-thumbnail thumb-img"
-            alt="thumb"
-          />
-        </div>
-        <div class="col-3">
-          <img
-            src="<%= listing.image?.url %>"
-            class="img-thumbnail thumb-img"
-            alt="thumb"
-          />
-        </div>
-        <div class="col-3">
-          <img
-            src="<%= listing.image?.url %>"
-            class="img-thumbnail thumb-img"
-            alt="thumb"
-          />
-        </div>
-      </div>
-    </div>
+  .breadcrumb a { color: var(--muted); text-decoration:none; }
+  .breadcrumb .active { color:#111827; font-weight:600; }
 
-    <!-- RIGHT: Details + Map -->
-    <div class="col-12 col-lg-5">
-      <div class="card-body">
-        <h4 class="mb-2">About this place</h4>
-        <p class="text-muted">
-          <%= listing.desc || 'No description provided yet.' %>
-        </p>
+  .show-top {
+    display:flex;
+    gap:20px;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+  }
 
-        <ul class="list-group list-group-flush mb-3">
-          <li class="list-group-item">
-            <strong>Location:</strong> <%= listing.location || 'N/A' %>
-          </li>
-          <li class="list-group-item">
-            <strong>Country:</strong> <%= listing.country || 'N/A' %>
-          </li>
-          <li class="list-group-item">
-            <strong>Owner:</strong> <%= listing.owner?.username || 'Unknown' %>
-          </li>
-        </ul>
+  .title-block h1 {
+    margin:0;
+    font-size:24px;
+    letter-spacing: -0.2px;
+  }
+  .subtitle { color:var(--muted); margin-top:6px; }
 
-        <div class="mb-3">
-          <h6 class="mb-1">Where you'll be</h6>
-          <div id="map" class="rounded"></div>
-        </div>
+  .price-badge{
+    background: linear-gradient(90deg,var(--accent), #ff6b7a);
+    color:white;
+    padding:10px 16px;
+    border-radius:12px;
+    font-weight:700;
+    box-shadow: 0 8px 20px rgba(255,56,92,0.15);
+  }
 
-        <div class="d-flex gap-2">
-          <a
-            href="/listings/<%= listing._id %>/edit"
-            class="btn btn-sm btn-outline-primary"
-            >Edit</a
-          >
-          <form
-            action="/listings/<%= listing._id %>"
-            method="POST"
-            class="d-inline"
-            onsubmit="return confirm('Are you sure you want to delete this listing?');"
-          >
-            <input type="hidden" name="_method" value="DELETE" />
-            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Removed duplicate details and legacy full-width buttons; review form moved below reviews. -->
+  .main-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.55));
+    backdrop-filter: blur(var(--glass-blur));
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-1);
+    padding: 18px;
+    overflow: hidden;
+  }
 
-<div class="text-success">
-  <hr class="mt-5" />
-</div>
+  /* Layout: gallery left, details right */
+  .show-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 22px;
+  }
+  @media (max-width: 991px) {
+    .show-grid { grid-template-columns: 1fr; }
+  }
 
-<!-- REVIEW BOXES -->
-<h4 class="mt-5 d-flex align-items-center">
-  All Reviews
-  <span class="badge bg-primary ms-2"
-    ><%= listing.reviews ? listing.reviews.length : 0 %></span
-  >
-</h4>
+  /* Gallery */
+  .main-image-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    height: 420px;
+    position: relative;
+    box-shadow: 0 14px 40px rgba(15,23,42,0.06);
+  }
+  .main-image {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition: transform 0.35s ease;
+  }
+  .main-image-wrapper:hover .main-image { transform: scale(1.03); }
 
-<div class="row gy-4 mt-3">
-  <% if (listing.reviews && listing.reviews.length) { %> <%
-  listing.reviews.forEach(function (review) { %>
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="card h-100 shadow-sm rounded-3">
-      <div class="card-body d-flex flex-column p-3 p-md-4">
-        <div class="d-flex align-items-start mb-2">
-          <div
-            class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3"
-            style="width: 48px; height: 48px; font-weight: 600"
-          >
-            <%= review.author?.username ?
-            review.author.username.charAt(0).toUpperCase() : 'U' %>
+  .thumb-row {
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+  }
+  .thumb-img {
+    width: calc((100% - 30px) / 4);
+    height:72px;
+    object-fit:cover;
+    border-radius:8px;
+    cursor:pointer;
+    border: 2px solid transparent;
+    transition: transform .18s ease, border-color .18s ease;
+  }
+  .thumb-img.active { border-color: rgba(255,56,92,0.9); transform: scale(1.02); }
+
+  /* Right column */
+  .details {
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.85);
+  }
+  .details h3 { margin-top:0; margin-bottom:6px; font-size:20px; }
+  .meta-row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:14px; margin-bottom:10px; }
+  .owner-pill {
+    display:inline-flex;
+    gap:10px;
+    align-items:center;
+    padding:6px 10px;
+    background:linear-gradient(180deg,#fff,#fff);
+    border-radius:999px;
+    box-shadow: 0 6px 20px rgba(15,23,42,0.04);
+  }
+  .owner-avatar {
+    width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:#f3f4f6; color:#111827; font-weight:600;
+  }
+
+  .section-title { font-size:16px; margin-bottom:8px; font-weight:700; }
+  .desc { color:var(--muted); line-height:1.55; }
+
+  #map { height:200px; border-radius:12px; background:#e9eef6; overflow:hidden; }
+
+  .action-row { display:flex; gap:10px; margin-top:14px; }
+  .btn-ghost {
+    border-radius: 10px;
+    padding:8px 12px;
+    border:1px solid rgba(0,0,0,0.06);
+    background:transparent;
+  }
+  .btn-primary-cta {
+    background: linear-gradient(90deg,var(--accent), #ff6b7a);
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:10px;
+    font-weight:700;
+  }
+
+  /* Reviews */
+  .reviews-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:16px; margin-top:18px; }
+  .review-card {
+    padding:14px;
+    border-radius:12px;
+    background: linear-gradient(180deg, #fff, #fff);
+    box-shadow: 0 8px 26px rgba(15,23,42,0.04);
+  }
+  .review-author { font-weight:700; margin-bottom:4px; }
+  .review-date { font-size:13px; color:var(--muted); }
+  .rating-pill { background: rgba(255,56,92,0.08); color:var(--accent); padding:6px 8px; border-radius:8px; font-weight:700; }
+
+  /* Leave review */
+  .review-form { margin-top: 16px; padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95)); box-shadow: 0 8px 30px rgba(15,23,42,0.04); }
+  .star-row input { display:none; }
+  .star-row label { cursor:pointer; margin-right:6px; font-size:20px; color:#e6e6e6; }
+  .star-row label.checked { color: #ffbfcc; text-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  .muted-small { color:var(--muted); font-size:13px; }
+
+  /* small screens */
+  @media (max-width:480px){
+    .main-image-wrapper { height:260px; }
+    .show-top { flex-direction:column; align-items:flex-start; gap:10px; }
+  }
+</style>
+
+<div class="page-wrap container">
+
+  <!-- Top: breadcrumbs, title, price -->
+  <div class="show-top">
+    <div class="title-block">
+      <nav aria-label="breadcrumb" style="margin-bottom:8px;">
+        <ol class="breadcrumb" style="background:transparent;padding:0;margin:0;">
+          <li class="breadcrumb-item"><a href="/listings">All Listings</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><%= listing.title %></li>
+        </ol>
+      </nav>
+      <h1><%= listing.title %></h1>
+      <div class="subtitle">Owned by
+        <span class="owner-pill ms-2">
+          <div class="owner-avatar">
+            <%= (listing.owner && listing.owner.username) ? listing.owner.username.charAt(0).toUpperCase() : 'U' %>
           </div>
+          <div style="margin-left:8px;">
+            <div style="font-weight:700"><%= listing.owner?.username || 'Unknown' %></div>
+            <div class="muted-small">Host on our platform</div>
+          </div>
+        </span>
+      </div>
+    </div>
 
+    <div class="actions">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="price-badge">₹ <%= listing.price ? Number(listing.price).toLocaleString('en-IN') : 'N/A' %> / night</div>
+        <button class="btn-ghost" onclick="window.history.back()">← Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- main card -->
+  <div class="main-card">
+    <div class="show-grid">
+
+      <!-- Left: Gallery -->
+      <div>
+        <div class="main-image-wrapper">
+          <img id="mainImage" src="<%= listing.image?.url || '/mnt/data/4238e950-21a9-4edc-bdd3-d204945bd052.png' %>" alt="<%= listing.title %>" class="main-image" loading="lazy">
+        </div>
+
+        <div class="thumb-row" role="list">
+          <% 
+            // build thumbnails array (use same image as fallback)
+            const thumbs = [];
+            // if you store multiple images in future, replace logic to use listing.images array
+            for(let i=0;i<4;i++) { thumbs.push(listing.image?.url || '/mnt/data/4238e950-21a9-4edc-bdd3-d204945bd052.png'); }
+          %>
+          <% thumbs.forEach((t, idx) => { %>
+            <img src="<%= t %>" data-src="<%= t %>" role="listitem" class="thumb-img <%= idx===0 ? 'active' : '' %>" alt="thumb <%= idx+1 %>">
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- Right: details + map -->
+      <div class="details">
+        <h3 class="section-title">About this place</h3>
+        <p class="desc"><%= listing.desc || 'No description provided yet.' %></p>
+
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+          <div style="min-width:160px;">
+            <strong>Location</strong>
+            <div class="muted-small"><%= listing.location || 'N/A' %></div>
+          </div>
+          <div style="min-width:120px;">
+            <strong>Country</strong>
+            <div class="muted-small"><%= listing.country || 'N/A' %></div>
+          </div>
           <div>
-            <h6 class="mb-0"><%= review.author?.username || 'Unknown' %></h6>
-            <% if (review.createdAt) { %>
-            <small class="text-muted"
-              ><%= new Date(review.createdAt).toLocaleDateString('en-IN', {
-              year: 'numeric', month: 'short', day: 'numeric' }) %></small
-            >
-            <% } %>
+            <strong>Category</strong>
+            <div class="muted-small"><%= listing.category || 'Rooms' %></div>
           </div>
         </div>
 
-        <h5 class="text-muted flex-grow-1 mb-3"><%= review.comment %></h5>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:12px;">
+          <!-- avg rating calculation -->
+          <% 
+            let avgRating = null;
+            if (listing.reviews && listing.reviews.length > 0) {
+              let total = 0;
+              listing.reviews.forEach(r => total += (r.rating || 0));
+              avgRating = (total / listing.reviews.length);
+            }
+          %>
+          <% if (avgRating) { %>
+            <div class="rating-pill">⭐ <%= avgRating.toFixed(1) %></div>
+            <div class="muted-small" style="margin-left:6px;"><%= listing.reviews.length %> review<%= listing.reviews.length>1 ? 's' : '' %></div>
+          <% } else { %>
+            <div class="muted-small">No ratings yet</div>
+          <% } %>
+        </div>
 
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <p class="starability-result" data-rating="<%= review.rating %>">
-              Rated: <%= review.rating %> stars
-            </p>
-          </div>
+        <div style="margin-top:14px;">
+          <h6 class="section-title">Where you'll be</h6>
+          <div id="map"></div>
+        </div>
 
-          <form
-            action="/listings/<%= listing._id %>/reviews/<%= review._id %>"
-            method="POST"
-            onsubmit="return confirm('Are you sure you want to delete this review?');"
-          >
-            <input type="hidden" name="_method" value="DELETE" />
-            <button type="submit" class="btn btn-sm btn-outline-danger">
-              Delete
-            </button>
+        <div class="action-row">
+          <a href="/listings/<%= listing._id %>/edit" class="btn-ghost">Edit</a>
+
+          <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this listing?');" style="display:inline;">
+            <button type="submit" class="btn-ghost" style="border-color: rgba(255,56,92,0.08);">Delete</button>
           </form>
+
+          <a href="/listings" class="btn-primary-cta">Back to listings</a>
         </div>
       </div>
-    </div>
-  </div>
-  <% }) %> <% } else { %>
-  <div class="col-12">
-    <div class="alert alert-secondary mb-0 p-3">
-      No reviews yet — be the first to leave one!
-    </div>
-  </div>
-  <% } %>
-</div>
 
-<% if (currentUser) { %>
-<div class="row mt-4">
-  <div class="col-12 col-lg-8">
-    <div class="review-card">
-      <h4 class="mb-3">Leave a Review</h4>
-      <form
-        action="/listings/<%= listing._id %>/reviews"
-        method="POST"
-        novalidate
-        class="needs-validation"
-      >
+    </div>
+  </div>
+
+  <!-- Reviews header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:26px;">
+    <h3 style="margin:0">All reviews</h3>
+    <div class="muted-small">Showing <strong><%= listing.reviews ? listing.reviews.length : 0 %></strong> reviews</div>
+  </div>
+
+  <div class="reviews-grid">
+    <% if (listing.reviews && listing.reviews.length) { %>
+      <% listing.reviews.forEach(function(review) { %>
+        <div class="review-card">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
+            <div style="width:48px;height:48px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-weight:700;color:#111827;">
+              <%= review.author?.username ? review.author.username.charAt(0).toUpperCase() : 'U' %>
+            </div>
+            <div>
+              <div class="review-author"><%= review.author?.username || 'Unknown' %></div>
+              <% if (review.createdAt) { %>
+                <div class="review-date"><%= new Date(review.createdAt).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}) %></div>
+              <% } %>
+            </div>
+            <div style="margin-left:auto;">
+              <div class="rating-pill">⭐ <%= review.rating || 0 %></div>
+            </div>
+          </div>
+
+          <div style="color:var(--muted);margin-bottom:14px;"><%= review.comment || 'No comment' %></div>
+
+          <div style="display:flex;gap:8px;align-items:center;">
+            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete review?');" style="margin-right:auto;">
+              <button class="btn-ghost" type="submit">Delete</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div class="alert alert-secondary">No reviews yet — be the first to review.</div>
+    <% } %>
+  </div>
+
+  <% if (currentUser) { %>
+    <div class="review-form" aria-labelledby="leaveReviewHeading">
+      <h4 id="leaveReviewHeading">Leave a review</h4>
+      <form action="/listings/<%= listing._id %>/reviews" method="POST" class="mt-2 needs-validation" novalidate>
         <div class="mb-3">
-          <label class="form-label">Write Comment</label>
-          <div class="form-floating">
-            <textarea
-              class="form-control"
-              placeholder="Leave a comment"
-              id="floatingTextarea2"
-              name="review[comment]"
-              required
-            ></textarea>
-            <label for="floatingTextarea2">Comment</label>
-            <div class="invalid-feedback">Please enter a comment.</div>
+          <label class="form-label">Comment</label>
+          <textarea name="review[comment]" class="form-control" rows="3" placeholder="What did you like?" required></textarea>
+          <div class="invalid-feedback">Please enter a comment.</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Rating</label>
+          <div class="star-row" aria-hidden="false">
+            <input type="radio" id="r1" name="review[rating]" value="1"><label for="r1" title="1 star">★</label>
+            <input type="radio" id="r2" name="review[rating]" value="2"><label for="r2" title="2 stars">★</label>
+            <input type="radio" id="r3" name="review[rating]" value="3"><label for="r3" title="3 stars">★</label>
+            <input type="radio" id="r4" name="review[rating]" value="4"><label for="r4" title="4 stars">★</label>
+            <input type="radio" id="r5" name="review[rating]" value="5"><label for="r5" title="5 stars">★</label>
           </div>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">Rate out of 5</label>
-          <fieldset class="starability-slot">
-            <legend class="visually-hidden">Rate this listing</legend>
-            <input
-              type="radio"
-              id="rate1"
-              name="review[rating]"
-              value="1"
-              required
-            />
-            <label for="rate1">1 star</label>
-            <input type="radio" id="rate2" name="review[rating]" value="2" />
-            <label for="rate2">2 stars</label>
-            <input type="radio" id="rate3" name="review[rating]" value="3" />
-            <label for="rate3">3 stars</label>
-            <input type="radio" id="rate4" name="review[rating]" value="4" />
-            <label for="rate4">4 stars</label>
-            <input type="radio" id="rate5" name="review[rating]" value="5" />
-            <label for="rate5">5 stars</label>
-          </fieldset>
-        </div>
-
-        <div class="review-actions">
-          <button type="submit" class="btn btn-success">Submit</button>
-          <small class="text-muted ms-2"
-            >Your review will appear after approval.</small
-          >
+        <div style="display:flex;gap:10px;align-items:center;">
+          <button class="btn-primary-cta" type="submit">Submit review</button>
+          <div class="muted-small">Your review will appear after approval.</div>
         </div>
       </form>
     </div>
-  </div>
+  <% } %>
+
 </div>
-<% } %>
+
+<!-- Client JS: gallery, star UI and map -->
+<script>
+  // ===== gallery thumbnail click swap =====
+  (function(){
+    const main = document.getElementById('mainImage');
+    const thumbs = document.querySelectorAll('.thumb-img');
+    thumbs.forEach(t => {
+      t.addEventListener('click', () => {
+        thumbs.forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        const src = t.dataset.src || t.src;
+        main.src = src;
+      });
+    });
+  })();
+
+  // ===== star visual toggle for review form =====
+  (function(){
+    const labels = document.querySelectorAll('.star-row label');
+    labels.forEach(l => {
+      l.addEventListener('click', () => {
+        labels.forEach(x => x.classList.remove('checked'));
+        l.classList.add('checked');
+        // mark previous labels to create filled-star visual
+        let prev = l.previousElementSibling;
+        while(prev){
+          if(prev.tagName === 'LABEL') prev.classList.add('checked');
+          prev = prev.previousElementSibling;
+        }
+      });
+    });
+  })();
+
+  // ===== Map initialization using MapTiler (or gracefully show fallback) =====
+  (function(){
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+
+    if (!mapToken || mapToken === '') {
+      mapContainer.innerHTML = '<div style="padding:20px;color:#374151">Map not available — MAPTILER_API_KEY not set.</div>';
+      return;
+    }
+    // if listing has geometry coordinates use them
+    try {
+      const coords = listing.geometry && listing.geometry.coordinates;
+      if (!coords || coords.length < 2) {
+        mapContainer.innerHTML = '<div style="padding:20px;color:#374151">No coordinates available for this listing.</div>';
+        return;
+      }
+      // inject MapLibre + MapTiler CSS/JS
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css';
+      document.head.appendChild(link);
+
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js';
+      script.onload = () => {
+        const map = new maplibregl.Map({
+          container: 'map',
+          style: `https://api.maptiler.com/maps/streets/style.json?key=${mapToken}`,
+          center: [coords[0], coords[1]],
+          zoom: 10
+        });
+        new maplibregl.Marker().setLngLat([coords[0], coords[1]]).addTo(map);
+      };
+      document.body.appendChild(script);
+    } catch(e){
+      mapContainer.innerHTML = '<div style="padding:20px;color:#374151">Map failed to load.</div>';
+      console.error(e);
+    }
+  })();
+</script>

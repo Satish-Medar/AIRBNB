@@ -1,161 +1,141 @@
 <% layout("/layouts/boilerplate") %>
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-8 offset-2">
-        <h1 class="mt-3">Create a New Listing</h1>
-        <form
-          action="/listings"
-          method="post"
-          class="needs-validation"
-          enctype="multipart/form-data"
-          novalidate
-        >
-          <label for="floatingInput" class="form-label">Enter Title</label>
-          <div class="form-floating mb-4">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingInput"
-              name="listing[title]"
-              placeholder="name@example.com"
-              required
-            />
-            <label for="floatingInput">Title</label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please enter a valid title.</div>
-          </div>
 
-          <label for="floatingTextarea2" class="form-label"
-            >Enter Description</label
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <!-- Heading -->
+        <div class="text-center mb-4">
+          <h2 class="fw-bold">Create a New Listing</h2>
+          <p class="text-muted">Add details for your property</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card shadow-sm border-0 rounded-4 p-4">
+          <form
+            action="/listings"
+            method="post"
+            enctype="multipart/form-data"
+            class="needs-validation"
+            novalidate
           >
-          <div class="form-floating mb-4">
-            <textarea
-              class="form-control"
-              name="listing[desc]"
-              placeholder="Leave a comment here"
-              id="floatingTextarea2"
-              style="height: 100px"
-              required
-            ></textarea>
-            <label for="floatingTextarea2">Description</label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">
-              Please enter a valid Description.
+            <!-- Title -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Listing Title</label>
+              <input
+                type="text"
+                class="form-control rounded-3"
+                name="listing[title]"
+                placeholder="Enter a catchy title"
+                required
+              />
+              <div class="invalid-feedback">Please enter a valid title.</div>
             </div>
-          </div>
 
-          <label for="floatingInput4" class="form-label">Upload Image</label>
+            <!-- Description -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Description</label>
+              <textarea
+                class="form-control rounded-3"
+                name="listing[desc]"
+                placeholder="Describe your place"
+                style="height: 120px"
+                required
+              ></textarea>
+              <div class="invalid-feedback">Please enter a description.</div>
+            </div>
 
-          <div class="form-floating mb-4">
-            <input
-              type="file"
-              class="form-control"
-              id="floatingInput4"
-              name="listing[image]"
-              accept="image/*"
-              required
-            />
+            <!-- Image -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Upload Image</label>
+              <input
+                type="file"
+                class="form-control rounded-3"
+                name="listing[image]"
+                accept="image/*"
+                required
+              />
+              <div class="invalid-feedback">Please upload an image.</div>
+            </div>
 
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please upload a valid image.</div>
-          </div>
+            <!-- Price -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Price (per night)</label>
+              <input
+                type="number"
+                class="form-control rounded-3"
+                name="listing[price]"
+                placeholder="Enter price"
+                required
+              />
+              <div class="invalid-feedback">Please enter a valid price.</div>
+            </div>
 
-          <label for="floatingInput5" class="form-label">Enter Price</label>
-          <div class="form-floating mb-4">
-            <input
-              type="number"
-              class="form-control"
-              id="floatingInput5"
-              name="listing[price]"
-              placeholder="name@example.com"
-              required
-            />
-            <label for="floatingInput">Price </label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please enter a valid price.</div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-4">
-              <label for="floatingInput6" class="form-label"
-                >Enter Location</label
-              >
-              <div class="form-floating mb-4">
+            <!-- Location + Country -->
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-semibold">Location</label>
                 <input
                   type="text"
-                  class="form-control"
-                  id="floatingInput6"
+                  class="form-control rounded-3"
                   name="listing[location]"
-                  placeholder="name@example.com"
+                  placeholder="City / Area"
                   required
                 />
-                <label for="floatingInput">Location </label>
-                <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">
-                  Please enter a valid location.
-                </div>
+                <div class="invalid-feedback">Please enter location.</div>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-semibold">Country</label>
+                <input
+                  type="text"
+                  class="form-control rounded-3"
+                  name="listing[country]"
+                  placeholder="Country"
+                  required
+                />
+                <div class="invalid-feedback">Please enter country.</div>
               </div>
             </div>
 
-            <div class="col-md-8">
-              <label for="floatingInput7" class="form-label"
-                >Enter Country</label
+            <!-- Category -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Category</label>
+              <select
+                class="form-select rounded-3"
+                name="listing[category]"
+                required
               >
-              <div class="form-floating mb-4">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="floatingInput7"
-                  name="listing[country]"
-                  placeholder="name@example.com"
-                  required
-                />
-                <label for="floatingInput">Country</label>
-                <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">
-                  Please enter a valid country.
-                </div>
-              </div>
+                <option value="Rooms">Rooms</option>
+                <option value="Iconic Cities">Iconic Cities</option>
+                <option value="Mountains">Mountains</option>
+                <option value="Castles">Castles</option>
+                <option value="Arctic">Arctic</option>
+                <option value="Camping">Camping</option>
+                <option value="Farms">Farms</option>
+                <option value="Pools">Pools</option>
+                <option value="Domes">Domes</option>
+                <option value="Boats">Boats</option>
+                <option value="Trending">Trending</option>
+              </select>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
+
+            <!-- Buttons -->
+            <div class="d-flex gap-3 mt-4">
               <button
                 type="button"
-                class="btn btn-secondary w-100"
+                class="btn btn-outline-secondary w-50 rounded-3"
                 onclick="window.location='/listings'"
               >
                 Cancel
               </button>
+
+              <button type="submit" class="btn btn-success w-50 rounded-3">
+                Create Listing
+              </button>
             </div>
-            <div class="col-6">
-              <div class="mb-3">
-                <label class="form-label">Category</label>
-                <select
-                  class="form-select mb-2"
-                  name="listing[category]"
-                  required
-                >
-                  <option value="Rooms">Rooms</option>
-                  <option value="Iconic Cities">Iconic Cities</option>
-                  <option value="Mountains">Mountains</option>
-                  <option value="Castles">Castles</option>
-                  <option value="Arctic">Arctic</option>
-                  <option value="Camping">Camping</option>
-                  <option value="Farms">Farms</option>
-                  <option value="Pools">Pools</option>
-                  <option value="Domes">Domes</option>
-                  <option value="Boats">Boats</option>
-                  <option value="Trending">Trending</option>
-                </select>
-                <button type="submit" class="btn btn-success w-100">
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>

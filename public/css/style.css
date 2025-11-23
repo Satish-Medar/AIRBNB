@@ -499,3 +499,39 @@ img {
   flex: 1 1 100%;
 }
 
+/* Add this block to ensure the wrapping anchor tag fills the space */
+.listing-col {
+  display: flex; /* Treat the wrapper as a flexible container */
+  height: 100%; /* Force it to take the full height of the grid row */
+  align-items: stretch; /* Ensure the card inside stretches */
+}
+
+/* Also ensure the card itself stretches inside the anchor */
+.listing-card {
+  /* ... existing styles ... */
+  height: 100%; /* Ensure this property is active */
+}
+
+#cards-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  grid-auto-rows: 1fr;
+}
+
+/* Responsive Breakpoints for #cards-container */
+@media (max-width: 1200px) {
+  #cards-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  #cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  #cards-container {
+    grid-template-columns: 1fr;
+  }
+}

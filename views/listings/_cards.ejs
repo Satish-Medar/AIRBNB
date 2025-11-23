@@ -1,0 +1,65 @@
+<% for (let list of (listings || [])) { %>
+<a
+  href="/listings/<%= list._id %>"
+  class="grid-item text-decoration-none listing-col"
+  role="group"
+>
+  <div class="card border-0 position-relative listing-card h-100">
+    <!-- Image -->
+    <img
+      src="<%= list.image?.url %>"
+      class="card-img-top rounded-4"
+      loading="lazy"
+      alt="<%= list.title %>"
+      style="height: 240px; object-fit: cover; width: 100%"
+    />
+
+    <div class="card-body">
+      <!-- Title + Location -->
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <h5 class="mb-1 text-dark"><%= list.title %></h5>
+          <div class="text-muted small">
+            <%= (list.location || list.country || '').split(',')[0] %>
+          </div>
+        </div>
+
+        <!-- Category Badge -->
+        <div class="text-end">
+          <div class="badge-category"><%= list.category || 'Rooms' %></div>
+        </div>
+      </div>
+
+      <!-- Price + Rating + Menu -->
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <!-- Price -->
+        <div class="text-muted small">
+          ₹<%= list.price ? Number(list.price).toLocaleString('en-IN') : 'N/A'
+          %>
+        </div>
+
+        <!-- Rating + Dropdown -->
+        <div class="d-flex align-items-center">
+          <span class="small text-muted me-2">
+            ⭐ <%= (Math.round((list.avgRating||0)*10)/10).toFixed(1) %>
+          </span>
+
+          <div class="btn-group dropstart">
+            <button
+              class="btn btn-sm btn-light"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              ⋯
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Save</a></li>
+              <li><a class="dropdown-item" href="#">Share</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
+<% } %>

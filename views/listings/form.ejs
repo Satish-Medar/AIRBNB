@@ -45,8 +45,6 @@
             </div>
           </div>
 
-        
-
           <label for="floatingInput4" class="form-label">Upload Image</label>
 
           <div class="form-floating mb-4">
@@ -132,9 +130,29 @@
               </button>
             </div>
             <div class="col-6">
-              <button type="submit" class="btn btn-success w-100">
-                Submit
-              </button>
+              <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select
+                  class="form-select mb-2"
+                  name="listing[category]"
+                  required
+                >
+                  <option value="Rooms">Rooms</option>
+                  <option value="Iconic Cities">Iconic Cities</option>
+                  <option value="Mountains">Mountains</option>
+                  <option value="Castles">Castles</option>
+                  <option value="Arctic">Arctic</option>
+                  <option value="Camping">Camping</option>
+                  <option value="Farms">Farms</option>
+                  <option value="Pools">Pools</option>
+                  <option value="Domes">Domes</option>
+                  <option value="Boats">Boats</option>
+                  <option value="Trending">Trending</option>
+                </select>
+                <button type="submit" class="btn btn-success w-100">
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
         </form>

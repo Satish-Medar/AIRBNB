@@ -1,10 +1,85 @@
+.body,
 body {
-  background-color: pink;
-  font-family: sans-serif;
+  background-color: #fff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+.root,
+:root {
+  /* Design tokens */
+  --color-primary: #ff385c;
+  --color-primary-600: #ff4c6d;
+  --color-muted: #6c757d;
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-text: #222222;
+  --radius-default: 8px;
+  --spacing: 1rem;
+  --container-width: 1200px;
+}
+
+/* Typographic scale */
+html {
+  font-size: 16px;
+}
+body {
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+p.lead {
+  font-size: 1.05rem;
+  color: var(--color-muted);
+}
+
+/* Buttons: accent style for CTAs */
+.btn-accent {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-600),
+    var(--color-primary)
+  );
+  border: none;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(255, 56, 92, 0.12);
+}
+.btn-accent:focus,
+.listing-card {
+  min-height: 320px;
+}
+.btn-accent:hover {
+  transform: translateY(-1px);
+}
+
+/* Utility */
+.badge-category {
+  background: rgba(255, 56, 92, 0.08);
+  color: var(--color-primary);
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  font-weight: 600;
+  font-size: 0.8rem;
 }
 .navbar {
-  height: 5rem;
   background-color: white;
+  padding: 0.5rem 1rem;
 }
 
 .fa-airbnb {
@@ -80,9 +155,17 @@ body {
 
 .card-img-top {
   width: 100% !important;
-
   object-fit: cover !important;
   display: block;
+  aspect-ratio: 16/10;
+  height: auto;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+/* Force a consistent image height for listing cards to keep grid aligned */
+.card-img-top {
+  height: 160px !important;
+  max-height: 180px !important;
 }
 .card-body {
   padding: 0 !important;
@@ -123,10 +206,20 @@ a {
   font-size: 1rem;
 }
 
+/* Make map responsive: full width, controlled height */
 #map {
-  height: 400px;
-  width: 80vh;
-  border: 2px solid red;
+  width: 100%;
+  max-width: 100%;
+  height: 40vh; /* responsive height */
+  min-height: 240px;
+  max-height: 500px;
+  border: 2px solid #e0e0e0;
+}
+
+/* Ensure images scale correctly */
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 .custom-marker {
@@ -144,3 +237,265 @@ a {
   cursor: pointer;
   padding: 0;
 }
+
+/* Show page styles */
+.listing-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.price-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, #ff6b78, #ff385c);
+  color: #fff;
+  padding: 0.6rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+.main-image-wrapper {
+  height: 420px;
+  overflow: hidden;
+  border-radius: var(--radius-default);
+}
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 300ms ease;
+}
+.main-image-wrapper:hover .main-image {
+  transform: scale(1.03);
+}
+.card:hover .card-img-top {
+  transform: scale(1.03);
+}
+.thumb-img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  transition: transform 180ms ease;
+}
+
+.thumb-img:hover {
+  transform: scale(1.04);
+}
+
+/* Listing card adjustments */
+.listing-card {
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 180ms ease, transform 160ms ease;
+}
+.listing-card:hover {
+  box-shadow: 0 8px 24px rgba(34, 34, 34, 0.08);
+  transform: translateY(-4px);
+}
+.listing-card .card-body {
+  padding: 0.75rem;
+}
+.listing-col {
+  display: block;
+}
+.cards-grid {
+  display: grid !important;
+  /* Ensure strict left-to-right, top-to-bottom placement */
+  grid-auto-flow: row;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  align-items: start;
+  /* Make each grid row a consistent height so items don't cause visual masonry */
+  grid-auto-rows: 1fr;
+  justify-items: start;
+}
+.grid-item {
+  margin: 0; /* ensure spacing comes from grid gap, not item margins */
+  display: flex; /* allow child card to stretch vertically */
+  align-items: stretch;
+}
+
+/* Make each grid item a column-flex so content can stretch vertically but keep consistent flow */
+.cards-grid > .grid-item {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  align-self: start;
+}
+
+/* Ensure inner card fills width and uses flex column so footer aligns */
+.cards-grid .listing-card {
+  display: flex;
+  flex-direction: column;
+  /* let the card grow to fill the grid cell */
+  flex: 1 1 auto;
+  height: 100%;
+}
+.listing-card {
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 180ms ease, transform 160ms ease;
+  display: flex;
+  flex-direction: column;
+}
+.listing-card:hover {
+  box-shadow: 0 8px 24px rgba(34, 34, 34, 0.08);
+  transform: translateY(-4px);
+}
+.listing-card .card-body {
+  padding: 0.75rem;
+  margin-top: auto;
+}
+.listing-card h5 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+/* Ensure card body in showcard has comfortable padding (override global reset) */
+.showcard .card-body {
+  padding: 1rem !important;
+}
+
+/* Prevent buttons from stretching due to container rules */
+.showcard .btn {
+  width: auto !important;
+}
+
+/* List group spacing */
+.showcard .list-group-item {
+  padding: 0.75rem 1rem;
+}
+
+/* Review card */
+.review-card {
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(20, 20, 20, 0.04);
+  background: #f8fafc;
+  border: 1px solid #e9eef3;
+}
+.review-card .form-label {
+  font-weight: 600;
+}
+.review-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+.review-actions .btn {
+  padding: 0.45rem 0.9rem;
+}
+
+/* Rating stars spacing */
+.starability-result {
+  margin-top: 0.25rem;
+}
+
+/* Review form spacing */
+.needs-validation textarea.form-control {
+  min-height: 160px;
+}
+
+/* Make sure container padding is reasonable */
+.container-fluid.px-3 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Center the main app content with side spacing similar to navbar */
+.app-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 576px) {
+  .app-container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .cards-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-image-wrapper {
+    height: 260px;
+  }
+  .thumb-img {
+    height: 60px;
+  }
+  .listing-title {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-img-top {
+    height: 120px !important;
+    max-height: 140px !important;
+  }
+}
+
+/* Filters: active and icon styling */
+.active-filter {
+  opacity: 1 !important;
+  transform: translateY(-2px);
+}
+
+.filters i {
+  font-size: 1.4rem;
+  color: #ff385c;
+}
+
+/* Make filter bar horizontally scrollable on small screens */
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+}
+
+.filters {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.filters a.filter {
+  flex: 0 0 auto;
+  outline: none;
+}
+.filters a.filter:focus {
+  box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.14);
+  border-radius: 8px;
+}
+
+/* Responsive footer layout */
+.f-info {
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+}
+.f-links,
+.soc-links {
+  flex: 1 1 100%;
+}
+

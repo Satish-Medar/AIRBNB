@@ -5,15 +5,65 @@ const List = require("../models/listing");
 const maptilerClient = require("@maptiler/client");
 maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
+// Categories with optional icon classes (used in the index view)
+const CATEGORIES = [
+  { name: "Trending", iconClass: "fa-solid fa-fire" },
+  { name: "Rooms", iconClass: "fa-solid fa-bed" },
+  { name: "Iconic Cities", iconClass: "fa-solid fa-city" },
+  { name: "Mountains", iconClass: "fa-solid fa-mountain" },
+  { name: "Castles", iconClass: "fa-brands fa-fort-awesome" },
+  { name: "Arctic", iconClass: "fa-solid fa-snowflake" },
+  { name: "Camping", iconClass: "fa-solid fa-campground" },
+  { name: "Farms", iconClass: "fa-solid fa-cow" },
+  { name: "Pools", iconClass: "fa-solid fa-person-swimming" },
+  { name: "Domes", iconClass: "fa-solid fa-igloo" },
+  { name: "Boats", iconClass: "fa-solid fa-sailboat" },
+];
+
 // Index Controller
 module.exports.index = async (req, res) => {
-  const listings = await List.find({});
-  res.render("listings/index.ejs", { listings, allListings: listings });
+  const q = req.query.q;
+  let listings;
+  if (q && q.trim() !== "") {
+    // Case-insensitive partial match on title
+    listings = await List.find({ title: { $regex: q, $options: "i" } });
+  } else {
+    listings = await List.find({});
+  }
+  res.render("listings/index.ejs", {
+    listings,
+    allListings: listings,
+    searchQuery: q || "",
+    categories: CATEGORIES,
+  });
 };
 
 // Render New Form
 module.exports.renderNewForm = (req, res) => {
-  res.render("listings/form.ejs");
+  res.render("listings/form.ejs", { categories: CATEGORIES });
+};
+
+// Render Search Form
+module.exports.renderSearchForm = async (req, res) => {
+  const listings = await List.find({});
+  res.render("listings/search.ejs", {
+    listings,
+    allListings: listings,
+    categories: CATEGORIES,
+  });
+};
+
+// Filter by category
+module.exports.filterByCategory = async (req, res) => {
+  const { category } = req.params;
+  const listings = await List.find({ category });
+  res.render("listings/index.ejs", {
+    listings,
+    allListings: listings,
+    searchQuery: "",
+    categories: CATEGORIES,
+    selectedCategory: category,
+  });
 };
 
 // Show Controller
@@ -75,7 +125,7 @@ module.exports.renderEditForm = async (req, res) => {
     return res.redirect("/listings");
   }
 
-  res.render("listings/edit.ejs", { listing });
+  res.render("listings/edit.ejs", { listing, categories: CATEGORIES });
 };
 
 // Update Controller (with geocoding)

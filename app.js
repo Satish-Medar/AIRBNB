@@ -54,13 +54,15 @@ const connectSrcUrls = [
   "https://api.maptiler.com",
   "https://ka-f.fontawesome.com",
   "https://cdnjs.cloudflare.com",
+  "https://cdn.jsdelivr.net",
+  "https://cdn.maptiler.com",
 ];
 const fontSrcUrls = [
   "'self'",
   "https://fonts.gstatic.com",
   "https://cdn.maptiler.com",
   "https://ka-f.fontawesome.com",
-  "https://cdnjs.cloudflare.com" 
+  "https://cdnjs.cloudflare.com",
 ];
 
 app.use(
@@ -72,8 +74,8 @@ app.use(
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
 
       // --- CRITICAL FIXES FOR MAPS/WORKERS/BLOBS ---
-      workerSrc: ["'self'", "blob:", "https://cdn.maptiler.com"], 
-      childSrc: ["blob:"], 
+      workerSrc: ["'self'", "blob:", "https://cdn.maptiler.com"],
+      childSrc: ["blob:"],
       // ---------------------------------------------
 
       objectSrc: [],
@@ -120,10 +122,14 @@ app.use((req, res, next) => {
 // --------------------------------------
 // MongoDB Connection
 // --------------------------------------
-const dburl = process.env.ATLASDB_URL;
+let dburl = process.env.ATLASDB_URL;
 if (!dburl) {
-  console.error("FATAL: ATLASDB_URL is not set.");
-  process.exit(1);
+  // Fallback for local development: try localhost MongoDB
+  dburl = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/airbnb";
+  console.warn(
+    "WARNING: ATLASDB_URL not set. Falling back to local MongoDB:",
+    dburl
+  );
 }
 
 async function main() {

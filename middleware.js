@@ -16,7 +16,7 @@ module.exports = {
     }
     next();
   },
-}
+};
 
 module.exports.saveRedirectUrl = (req, res, next) => {
   // Prefer redirect stored in session, otherwise default to listings index
@@ -47,7 +47,18 @@ module.exports.validateListing = (req, res, next) => {
   // Validate against schema
   let { error } = listingSchema.validate({ listing: candidate });
   if (error) {
-    throw new ExpressError(400, error);
+    // Build readable error message and log payload for debugging
+    const errormsg = error.details.map((el) => el.message).join(", ");
+    console.error("validateListing - payload:", candidate, "errors:", errormsg);
+    // Provide friendly feedback and redirect to the new listing form
+    req.flash("error", "Invalid listing data: " + errormsg);
+    // Persist the submitted fields so the user doesn't lose their input
+    try {
+      if (req.session) req.session.formData = candidate;
+    } catch (e) {
+      console.warn("Could not persist form data in session", e);
+    }
+    return res.redirect("/listings/new");
   }
   next();
 };

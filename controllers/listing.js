@@ -111,7 +111,11 @@ module.exports.index = async (req, res) => {
 
 // Render New Form
 module.exports.renderNewForm = (req, res) => {
-  res.render("listings/form.ejs", { categories: CATEGORIES });
+  // If there is persisted form data from a previous failed submit, pass it to the template
+  const formData =
+    req.session && req.session.formData ? req.session.formData : null;
+  if (req.session && req.session.formData) delete req.session.formData;
+  res.render("listings/form.ejs", { categories: CATEGORIES, formData });
 };
 
 // Render Search Form
@@ -187,6 +191,12 @@ module.exports.createListing = async (req, res) => {
       "error",
       "Location lookup failed. Please check the address and try again."
     );
+    // persist user input so the form can be repopulated
+    try {
+      if (req.session) req.session.formData = req.body.listing;
+    } catch (e) {
+      console.warn("Could not persist form data in session", e);
+    }
     return res.redirect("/listings/new");
   }
 
@@ -197,6 +207,12 @@ module.exports.createListing = async (req, res) => {
       "error",
       "We couldn't find that location. Please enter a more specific address or try a nearby city."
     );
+    // persist user input so the form can be repopulated
+    try {
+      if (req.session) req.session.formData = req.body.listing;
+    } catch (e) {
+      console.warn("Could not persist form data in session", e);
+    }
     return res.redirect("/listings/new");
   }
 
@@ -218,6 +234,8 @@ module.exports.createListing = async (req, res) => {
   let sl = await newlisting.save();
   console.log(sl);
   req.flash("success", "Listing created successfully!");
+  // Clear any persisted form data on success
+  if (req.session && req.session.formData) delete req.session.formData;
   res.redirect("/listings");
 };
 // Render Edit Form

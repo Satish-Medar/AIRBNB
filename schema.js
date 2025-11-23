@@ -13,7 +13,10 @@ module.exports.listingSchema = joi.object({
   listing: joi
     .object({
       title: joi.string().required(),
-      desc: joi.string().min(10).max(1000).required(),
+      desc: joi.string().min(10).max(5000).required().messages({
+        "string.max": "Description must be 5000 characters or less.",
+        "string.min": "Description must be at least 10 characters long.",
+      }),
       image: joi.any(), // <<<<< CHANGE THIS
       price: joi.number().min(0).required(),
       location: joi.string().required(),

@@ -38,7 +38,7 @@
         ₹ <%= listing.price.toLocaleString("en-IN") %> / night
       </p>
 
-      <p class="desc"><%= listing.desc.substring(0, 80) %>...</p>
+      <p class="desc"><%= listing.desc.substring(0, 20) %>...</p>
 
       <a href="/listings/<%= listing._id %>" class="view-btn">View Details</a>
     </div>

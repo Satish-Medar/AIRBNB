@@ -165,7 +165,7 @@
   }
 
   .section-title {
-    font-size: 16px;
+    font-size: 26px;
     margin-bottom: 8px;
     font-weight: 700;
   }
@@ -174,11 +174,28 @@
     line-height: 1.55;
   }
 
+  /* Full-width map inside the show-grid */
+  .map-full {
+    grid-column: 1 / -1; /* span both columns */
+    width: 100%;
+  }
+
+  /* map container: stretches to parent's width and keeps fixed height */
+  .map-container,
   #map {
-    height: 200px;
+    width: 100%;
+    height: 400px; /* requested height */
     border-radius: 12px;
     background: #e9eef6;
     overflow: hidden;
+    margin: 0; /* remove default margins */
+  }
+
+  @media (max-width: 768px) {
+    .map-container,
+    #map {
+      height: 260px;
+    }
   }
 
   .action-row {
@@ -350,7 +367,7 @@
   }
 </style>
 
-<div class="page-wrap container">
+<div class="page-wrap container-fluid">
   <!-- Top: breadcrumbs, title, price -->
   <div class="show-top">
     <div class="title-block">
@@ -478,10 +495,8 @@
           <% } %>
         </div>
 
-        <div style="margin-top: 14px">
-          <h6 class="section-title">Where you'll be</h6>
-          <div id="map"></div>
-        </div>
+        <!-- Map moved out of the details column so it can span the full width of the show-grid -->
+        <!-- Empty placeholder here to keep details layout intact -->
 
         <div class="action-row">
           <a href="/listings/<%= listing._id %>/edit" class="btn-ghost">Edit</a>
@@ -503,6 +518,11 @@
 
           <a href="/listings" class="btn-primary-cta">Back to listings</a>
         </div>
+      </div>
+      <!-- Full-width map row: spans both gallery and details columns -->
+      <div class="map-full" style="grid-column: 1 / -1; margin-top: 14px">
+        <h4 class="section-title">Where you'll be</h4>
+        <div id="map" class="map-container"></div>
       </div>
     </div>
   </div>

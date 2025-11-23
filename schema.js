@@ -5,6 +5,7 @@ module.exports.listingSchema = joi.object({
     .object({
       title: joi.string().required(),
       desc: joi.string().min(10).max(1000).required(),
+      image: joi.any(), // <<<<< CHANGE THIS
       price: joi.number().min(0).required(),
       location: joi.string().required(),
       country: joi.string().required(),
@@ -24,14 +25,6 @@ module.exports.listingSchema = joi.object({
           "Trending"
         )
         .required(),
-
-      // ✔️ MAKE IMAGE OPTIONAL
-      image: joi
-        .object({
-          filename: joi.string().allow(null, ""),
-          url: joi.string().allow(null, ""),
-        })
-        .optional(),
     })
     .required(),
 });

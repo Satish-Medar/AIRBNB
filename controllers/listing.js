@@ -83,7 +83,10 @@ module.exports.index = async (req, res) => {
 
   // Fetch listings with all applied filters, sorting, and pagination
 
-  const listings = await List.find(filterQuery).sort(sortOptions).populate("owner").populate("reviews");
+  const listings = await List.find(filterQuery)
+    .sort(sortOptions)
+    .populate("owner")
+    .populate("reviews");
 
   // NOTE: Temporarily removing full pagination logic to avoid breaking if data is small/query is complex
   // .skip((page - 1) * limit)
@@ -175,7 +178,29 @@ module.exports.showListing = async (req, res) => {
 // Create Controller (with geocoding)
 module.exports.createListing = async (req, res) => {
   const locationString = `${req.body.listing.location}, ${req.body.listing.country}`;
-  const geoData = await maptilerClient.geocoding.forward(locationString);
+  let geoData = null;
+  try {
+    geoData = await maptilerClient.geocoding.forward(locationString);
+  } catch (err) {
+    console.error("Geocoding request failed:", err);
+    req.flash(
+      "error",
+      "Location lookup failed. Please check the address and try again."
+    );
+    return res.redirect("/listings/new");
+  }
+
+  // If geocoding didn't return usable features, inform the user instead of saving invalid document
+  if (!geoData || !geoData.features || geoData.features.length === 0) {
+    console.error("Geocoding returned no features for:", locationString);
+    req.flash(
+      "error",
+      "We couldn't find that location. Please enter a more specific address or try a nearby city."
+    );
+    return res.redirect("/listings/new");
+  }
+
+  // At this point geoData is available
   console.log("Geocode Data:", geoData.features[0].geometry);
 
   const newlisting = new List(req.body.listing);
@@ -188,16 +213,7 @@ module.exports.createListing = async (req, res) => {
     };
   }
 
-  // FIX: Check if features exist before assigning geometry (prevents crash)
-  if (geoData?.features?.length) {
-    newlisting.geometry = geoData.features[0].geometry;
-  } else {
-    // Handle case where geocoding fails, maybe throw an error or assign a default invalid geo data
-    console.error("Geocoding failed for new listing:", locationString);
-    // Based on model/listing.js, geometry is required. If missing, save will fail.
-    // For now, we rely on the schema validation on the client/middleware.
-    // A better implementation would throw a user-friendly error.
-  }
+  newlisting.geometry = geoData.features[0].geometry;
 
   let sl = await newlisting.save();
   console.log(sl);
@@ -221,13 +237,29 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
 
-  // 1. Geocode the updated location
+  // 1. Geocode the updated location (wrap in try/catch so update doesn't crash on transient API errors)
   const locationString = `${req.body.listing.location}, ${req.body.listing.country}`;
-  const geoData = await maptilerClient.geocoding.forward(locationString);
+  let geoData = null;
+  try {
+    geoData = await maptilerClient.geocoding.forward(locationString);
+  } catch (err) {
+    console.error("Geocoding request failed during update:", err);
+    req.flash(
+      "error",
+      "Location lookup failed while updating. Please try again."
+    );
+    return res.redirect(`/listings/${id}/edit`);
+  }
 
-  let newGeometry;
+  let newGeometry = null;
   if (geoData?.features?.length) {
     newGeometry = geoData.features[0].geometry;
+  } else {
+    console.warn(
+      "Geocoding returned no features during update for:",
+      locationString
+    );
+    // continue without geometry update so existing geometry remains intact
   }
 
   // 2. Update the Listing document

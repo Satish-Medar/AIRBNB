@@ -9,50 +9,63 @@
 <style>
   /* ---------- Premium modern / glassmorphism styles ---------- */
 
-  :root{
+  :root {
     --accent: #ff385c;
     --muted: #6b7280;
-    --glass-bg: rgba(255,255,255,0.65);
+    --glass-bg: rgba(255, 255, 255, 0.65);
     --glass-blur: 8px;
     --card-radius: 14px;
-    --shadow-1: 0 8px 30px rgba(15,23,42,0.08);
+    --shadow-1: 0 8px 30px rgba(15, 23, 42, 0.08);
   }
 
   .page-wrap {
     padding: 36px 20px;
-    background: linear-gradient(180deg,#fbfbfd 0%, #f7f8fb 100%);
+    background: linear-gradient(180deg, #fbfbfd 0%, #f7f8fb 100%);
     min-height: 100vh;
   }
 
-  .breadcrumb a { color: var(--muted); text-decoration:none; }
-  .breadcrumb .active { color:#111827; font-weight:600; }
+  .breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .breadcrumb .active {
+    color: #111827;
+    font-weight: 600;
+  }
 
   .show-top {
-    display:flex;
-    gap:20px;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:18px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
   }
 
   .title-block h1 {
-    margin:0;
-    font-size:24px;
+    margin: 0;
+    font-size: 24px;
     letter-spacing: -0.2px;
   }
-  .subtitle { color:var(--muted); margin-top:6px; }
+  .subtitle {
+    color: var(--muted);
+    margin-top: 6px;
+  }
 
-  .price-badge{
-    background: linear-gradient(90deg,var(--accent), #ff6b7a);
-    color:white;
-    padding:10px 16px;
-    border-radius:12px;
-    font-weight:700;
-    box-shadow: 0 8px 20px rgba(255,56,92,0.15);
+  .price-badge {
+    background: linear-gradient(90deg, var(--accent), #ff6b7a);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(255, 56, 92, 0.15);
   }
 
   .main-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.55));
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.65),
+      rgba(255, 255, 255, 0.55)
+    );
     backdrop-filter: blur(var(--glass-blur));
     border-radius: var(--card-radius);
     box-shadow: var(--shadow-1);
@@ -67,7 +80,9 @@
     gap: 22px;
   }
   @media (max-width: 991px) {
-    .show-grid { grid-template-columns: 1fr; }
+    .show-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   /* Gallery */
@@ -76,120 +91,292 @@
     overflow: hidden;
     height: 420px;
     position: relative;
-    box-shadow: 0 14px 40px rgba(15,23,42,0.06);
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
   }
   .main-image {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
     transition: transform 0.35s ease;
   }
-  .main-image-wrapper:hover .main-image { transform: scale(1.03); }
+  .main-image-wrapper:hover .main-image {
+    transform: scale(1.03);
+  }
 
   .thumb-row {
-    display:flex;
-    gap:10px;
-    margin-top:12px;
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
   }
   .thumb-img {
     width: calc((100% - 30px) / 4);
-    height:72px;
-    object-fit:cover;
-    border-radius:8px;
-    cursor:pointer;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
     border: 2px solid transparent;
-    transition: transform .18s ease, border-color .18s ease;
+    transition: transform 0.18s ease, border-color 0.18s ease;
   }
-  .thumb-img.active { border-color: rgba(255,56,92,0.9); transform: scale(1.02); }
+  .thumb-img.active {
+    border-color: rgba(255, 56, 92, 0.9);
+    transform: scale(1.02);
+  }
 
   /* Right column */
   .details {
     padding: 18px;
     border-radius: 12px;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
   }
-  .details h3 { margin-top:0; margin-bottom:6px; font-size:20px; }
-  .meta-row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:14px; margin-bottom:10px; }
+  .details h3 {
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-size: 20px;
+  }
+  .meta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
   .owner-pill {
-    display:inline-flex;
-    gap:10px;
-    align-items:center;
-    padding:6px 10px;
-    background:linear-gradient(180deg,#fff,#fff);
-    border-radius:999px;
-    box-shadow: 0 6px 20px rgba(15,23,42,0.04);
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    padding: 6px 10px;
+    background: linear-gradient(180deg, #fff, #fff);
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
   }
   .owner-avatar {
-    width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:#f3f4f6; color:#111827; font-weight:600;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    color: #111827;
+    font-weight: 600;
   }
 
-  .section-title { font-size:16px; margin-bottom:8px; font-weight:700; }
-  .desc { color:var(--muted); line-height:1.55; }
+  .section-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .desc {
+    color: var(--muted);
+    line-height: 1.55;
+  }
 
-  #map { height:200px; border-radius:12px; background:#e9eef6; overflow:hidden; }
+  #map {
+    height: 200px;
+    border-radius: 12px;
+    background: #e9eef6;
+    overflow: hidden;
+  }
 
-  .action-row { display:flex; gap:10px; margin-top:14px; }
+  .action-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
   .btn-ghost {
     border-radius: 10px;
-    padding:8px 12px;
-    border:1px solid rgba(0,0,0,0.06);
-    background:transparent;
+    padding: 8px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: transparent;
   }
   .btn-primary-cta {
-    background: linear-gradient(90deg,var(--accent), #ff6b7a);
-    color:white;
-    border:none;
-    padding:8px 14px;
-    border-radius:10px;
-    font-weight:700;
+    background: linear-gradient(90deg, var(--accent), #ff6b7a);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 700;
   }
 
   /* Reviews */
-  .reviews-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:16px; margin-top:18px; }
-  .review-card {
-    padding:14px;
-    border-radius:12px;
-    background: linear-gradient(180deg, #fff, #fff);
-    box-shadow: 0 8px 26px rgba(15,23,42,0.04);
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
   }
-  .review-author { font-weight:700; margin-bottom:4px; }
-  .review-date { font-size:13px; color:var(--muted); }
-  .rating-pill { background: rgba(255,56,92,0.08); color:var(--accent); padding:6px 8px; border-radius:8px; font-weight:700; }
+  .review-card {
+    padding: 14px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fff, #fff);
+    box-shadow: 0 8px 26px rgba(15, 23, 42, 0.04);
+  }
+  .review-author {
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .review-date {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .rating-pill {
+    background: rgba(255, 56, 92, 0.08);
+    color: var(--accent);
+    padding: 6px 8px;
+    border-radius: 8px;
+    font-weight: 700;
+  }
 
   /* Leave review */
-  .review-form { margin-top: 16px; padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95)); box-shadow: 0 8px 30px rgba(15,23,42,0.04); }
-  .star-row input { display:none; }
-  .star-row label { cursor:pointer; margin-right:6px; font-size:20px; color:#e6e6e6; }
-  .star-row label.checked { color: #ffbfcc; text-shadow: 0 1px 0 rgba(0,0,0,0.05); }
-  .muted-small { color:var(--muted); font-size:13px; }
+  .review-form {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 12px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.95)
+    );
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+  }
+  .star-row input {
+    display: none;
+  }
+  .star-row label {
+    cursor: pointer;
+    margin-right: 6px;
+    font-size: 20px;
+    color: #e6e6e6;
+  }
+  .star-row label.checked {
+    color: #ffbfcc;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  }
+  .muted-small {
+    color: var(--muted);
+    font-size: 13px;
+  }
 
   /* small screens */
-  @media (max-width:480px){
-    .main-image-wrapper { height:260px; }
-    .show-top { flex-direction:column; align-items:flex-start; gap:10px; }
+  @media (max-width: 480px) {
+    .main-image-wrapper {
+      height: 260px;
+    }
+    .show-top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
+  /* ---------- Improved Gallery ---------- */
+  .gallery-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .main-image-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    height: 420px;
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .main-image-wrapper:hover {
+    transform: scale(1.02);
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.1);
+  }
+  .main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  /* Thumbnails row */
+  .thumb-row {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
+  .thumb {
+    flex: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .thumb img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .thumb:hover img {
+    transform: scale(1.1);
+  }
+  .thumb.active {
+    border-color: rgba(255, 56, 92, 0.9);
+    transform: scale(1.05);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .main-image-wrapper {
+      height: 320px;
+    }
+    .thumb img {
+      height: 70px;
+    }
+  }
+  @media (max-width: 480px) {
+    .main-image-wrapper {
+      height: 260px;
+    }
+    .thumb-row {
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .thumb img {
+      height: 60px;
+    }
   }
 </style>
 
 <div class="page-wrap container">
-
   <!-- Top: breadcrumbs, title, price -->
   <div class="show-top">
     <div class="title-block">
-      <nav aria-label="breadcrumb" style="margin-bottom:8px;">
-        <ol class="breadcrumb" style="background:transparent;padding:0;margin:0;">
+      <nav aria-label="breadcrumb" style="margin-bottom: 8px">
+        <ol
+          class="breadcrumb"
+          style="background: transparent; padding: 0; margin: 0"
+        >
           <li class="breadcrumb-item"><a href="/listings">All Listings</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><%= listing.title %></li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <%= listing.title %>
+          </li>
         </ol>
       </nav>
       <h1><%= listing.title %></h1>
-      <div class="subtitle">Owned by
+      <div class="subtitle">
+        Owned by
         <span class="owner-pill ms-2">
           <div class="owner-avatar">
-            <%= (listing.owner && listing.owner.username) ? listing.owner.username.charAt(0).toUpperCase() : 'U' %>
+            <%= (listing.owner && listing.owner.username) ?
+            listing.owner.username.charAt(0).toUpperCase() : 'U' %>
           </div>
-          <div style="margin-left:8px;">
-            <div style="font-weight:700"><%= listing.owner?.username || 'Unknown' %></div>
+          <div style="margin-left: 8px">
+            <div style="font-weight: 700">
+              <%= listing.owner?.username || 'Unknown' %>
+            </div>
             <div class="muted-small">Host on our platform</div>
           </div>
         </span>
@@ -197,9 +384,14 @@
     </div>
 
     <div class="actions">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div class="price-badge">₹ <%= listing.price ? Number(listing.price).toLocaleString('en-IN') : 'N/A' %> / night</div>
-        <button class="btn-ghost" onclick="window.history.back()">← Back</button>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <div class="price-badge">
+          ₹ <%= listing.price ? Number(listing.price).toLocaleString('en-IN') :
+          'N/A' %> / night
+        </div>
+        <button class="btn-ghost" onclick="window.history.back()">
+          <a href="/listings">← Back</a>
+        </button>
       </div>
     </div>
   </div>
@@ -207,22 +399,34 @@
   <!-- main card -->
   <div class="main-card">
     <div class="show-grid">
-
       <!-- Left: Gallery -->
-      <div>
+      <div class="gallery-container">
+        <!-- Main Image -->
         <div class="main-image-wrapper">
-          <img id="mainImage" src="<%= listing.image?.url || '/mnt/data/4238e950-21a9-4edc-bdd3-d204945bd052.png' %>" alt="<%= listing.title %>" class="main-image" loading="lazy">
+          <img
+            id="mainImage"
+            src="<%= listing.image?.url || '/mnt/data/4238e950-21a9-4edc-bdd3-d204945bd052.png' %>"
+            alt="<%= listing.title %>"
+            class="main-image"
+            loading="lazy"
+          />
         </div>
 
-        <div class="thumb-row" role="list">
-          <% 
-            // build thumbnails array (use same image as fallback)
-            const thumbs = [];
-            // if you store multiple images in future, replace logic to use listing.images array
-            for(let i=0;i<4;i++) { thumbs.push(listing.image?.url || '/mnt/data/4238e950-21a9-4edc-bdd3-d204945bd052.png'); }
-          %>
-          <% thumbs.forEach((t, idx) => { %>
-            <img src="<%= t %>" data-src="<%= t %>" role="listitem" class="thumb-img <%= idx===0 ? 'active' : '' %>" alt="thumb <%= idx+1 %>">
+        <!-- Thumbnails -->
+        <div class="thumb-row">
+          <% const thumbs = listing.images && listing.images.length > 0 ?
+          listing.images.slice(0, 4) : [listing.image, listing.image,
+          listing.image, listing.image]; %> <% thumbs.forEach((img, idx) => { %>
+          <div
+            class="thumb <%= idx === 0 ? 'active' : '' %>"
+            data-src="<%= img.url %>"
+          >
+            <img
+              src="<%= img.url %>"
+              alt="Thumbnail <%= idx + 1 %>"
+              loading="lazy"
+            />
+          </div>
           <% }) %>
         </div>
       </div>
@@ -230,14 +434,18 @@
       <!-- Right: details + map -->
       <div class="details">
         <h3 class="section-title">About this place</h3>
-        <p class="desc"><%= listing.desc || 'No description provided yet.' %></p>
+        <p class="desc">
+          <%= listing.desc || 'No description provided yet.' %>
+        </p>
 
-        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
-          <div style="min-width:160px;">
+        <div
+          style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap"
+        >
+          <div style="min-width: 160px">
             <strong>Location</strong>
             <div class="muted-small"><%= listing.location || 'N/A' %></div>
           </div>
-          <div style="min-width:120px;">
+          <div style="min-width: 120px">
             <strong>Country</strong>
             <div class="muted-small"><%= listing.country || 'N/A' %></div>
           </div>
@@ -247,25 +455,30 @@
           </div>
         </div>
 
-        <div style="display:flex;gap:10px;align-items:center;margin-top:12px;">
+        <div
+          style="
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 12px;
+          "
+        >
           <!-- avg rating calculation -->
-          <% 
-            let avgRating = null;
-            if (listing.reviews && listing.reviews.length > 0) {
-              let total = 0;
-              listing.reviews.forEach(r => total += (r.rating || 0));
-              avgRating = (total / listing.reviews.length);
-            }
-          %>
-          <% if (avgRating) { %>
-            <div class="rating-pill">⭐ <%= avgRating.toFixed(1) %></div>
-            <div class="muted-small" style="margin-left:6px;"><%= listing.reviews.length %> review<%= listing.reviews.length>1 ? 's' : '' %></div>
+          <% let avgRating = null; if (listing.reviews && listing.reviews.length
+          > 0) { let total = 0; listing.reviews.forEach(r => total += (r.rating
+          || 0)); avgRating = (total / listing.reviews.length); } %> <% if
+          (avgRating) { %>
+          <div class="rating-pill">⭐ <%= avgRating.toFixed(1) %></div>
+          <div class="muted-small" style="margin-left: 6px">
+            <%= listing.reviews.length %> review<%= listing.reviews.length>1 ?
+            's' : '' %>
+          </div>
           <% } else { %>
-            <div class="muted-small">No ratings yet</div>
+          <div class="muted-small">No ratings yet</div>
           <% } %>
         </div>
 
-        <div style="margin-top:14px;">
+        <div style="margin-top: 14px">
           <h6 class="section-title">Where you'll be</h6>
           <div id="map"></div>
         </div>
@@ -273,97 +486,206 @@
         <div class="action-row">
           <a href="/listings/<%= listing._id %>/edit" class="btn-ghost">Edit</a>
 
-          <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this listing?');" style="display:inline;">
-            <button type="submit" class="btn-ghost" style="border-color: rgba(255,56,92,0.08);">Delete</button>
+          <form
+            action="/listings/<%= listing._id %>?_method=DELETE"
+            method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this listing?');"
+            style="display: inline"
+          >
+            <button
+              type="submit"
+              class="btn-ghost"
+              style="border-color: rgba(255, 56, 92, 0.08)"
+            >
+              Delete
+            </button>
           </form>
 
           <a href="/listings" class="btn-primary-cta">Back to listings</a>
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- Reviews header -->
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:26px;">
-    <h3 style="margin:0">All reviews</h3>
-    <div class="muted-small">Showing <strong><%= listing.reviews ? listing.reviews.length : 0 %></strong> reviews</div>
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 26px;
+    "
+  >
+    <h3 style="margin: 0">All reviews</h3>
+    <div class="muted-small">
+      Showing
+      <strong><%= listing.reviews ? listing.reviews.length : 0 %></strong>
+      reviews
+    </div>
   </div>
 
   <div class="reviews-grid">
-    <% if (listing.reviews && listing.reviews.length) { %>
-      <% listing.reviews.forEach(function(review) { %>
-        <div class="review-card">
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
-            <div style="width:48px;height:48px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-weight:700;color:#111827;">
-              <%= review.author?.username ? review.author.username.charAt(0).toUpperCase() : 'U' %>
-            </div>
-            <div>
-              <div class="review-author"><%= review.author?.username || 'Unknown' %></div>
-              <% if (review.createdAt) { %>
-                <div class="review-date"><%= new Date(review.createdAt).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}) %></div>
-              <% } %>
-            </div>
-            <div style="margin-left:auto;">
-              <div class="rating-pill">⭐ <%= review.rating || 0 %></div>
-            </div>
-          </div>
-
-          <div style="color:var(--muted);margin-bottom:14px;"><%= review.comment || 'No comment' %></div>
-
-          <div style="display:flex;gap:8px;align-items:center;">
-            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete review?');" style="margin-right:auto;">
-              <button class="btn-ghost" type="submit">Delete</button>
-            </form>
-          </div>
+    <% if (listing.reviews && listing.reviews.length) { %> <%
+    listing.reviews.forEach(function(review) { %>
+    <div class="review-card">
+      <div
+        style="
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          margin-bottom: 8px;
+        "
+      >
+        <div
+          style="
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #111827;
+          "
+        >
+          <%= review.author?.username ?
+          review.author.username.charAt(0).toUpperCase() : 'U' %>
         </div>
-      <% }) %>
-    <% } else { %>
-      <div class="alert alert-secondary">No reviews yet — be the first to review.</div>
+        <div>
+          <div class="review-author">
+            <%= review.author?.username || 'Unknown' %>
+          </div>
+          <% if (review.createdAt) { %>
+          <div class="review-date">
+            <%= new
+            Date(review.createdAt).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'})
+            %>
+          </div>
+          <% } %>
+        </div>
+        <div style="margin-left: auto">
+          <div class="rating-pill">⭐ <%= review.rating || 0 %></div>
+        </div>
+      </div>
+
+      <div style="color: var(--muted); margin-bottom: 14px">
+        <%= review.comment || 'No comment' %>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center">
+        <form
+          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+          method="POST"
+          onsubmit="return confirm('Delete review?');"
+          style="margin-right: auto"
+        >
+          <button class="btn-ghost" type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+    <% }) %> <% } else { %>
+    <div class="alert alert-secondary">
+      No reviews yet — be the first to review.
+    </div>
     <% } %>
   </div>
 
   <% if (currentUser) { %>
-    <div class="review-form" aria-labelledby="leaveReviewHeading">
-      <h4 id="leaveReviewHeading">Leave a review</h4>
-      <form action="/listings/<%= listing._id %>/reviews" method="POST" class="mt-2 needs-validation" novalidate>
-        <div class="mb-3">
-          <label class="form-label">Comment</label>
-          <textarea name="review[comment]" class="form-control" rows="3" placeholder="What did you like?" required></textarea>
-          <div class="invalid-feedback">Please enter a comment.</div>
-        </div>
+  <div class="review-form" aria-labelledby="leaveReviewHeading">
+    <h4 id="leaveReviewHeading">Leave a review</h4>
+    <form
+      action="/listings/<%= listing._id %>/reviews"
+      method="POST"
+      class="mt-2 needs-validation"
+      novalidate
+    >
+      <div class="mb-3">
+        <label class="form-label">Comment</label>
+        <textarea
+          name="review[comment]"
+          class="form-control"
+          rows="3"
+          placeholder="What did you like?"
+          required
+        ></textarea>
+        <div class="invalid-feedback">Please enter a comment.</div>
+      </div>
 
-        <div class="mb-3">
-          <label class="form-label">Rating</label>
-          <div class="star-row" aria-hidden="false">
-            <input type="radio" id="r1" name="review[rating]" value="1"><label for="r1" title="1 star">★</label>
-            <input type="radio" id="r2" name="review[rating]" value="2"><label for="r2" title="2 stars">★</label>
-            <input type="radio" id="r3" name="review[rating]" value="3"><label for="r3" title="3 stars">★</label>
-            <input type="radio" id="r4" name="review[rating]" value="4"><label for="r4" title="4 stars">★</label>
-            <input type="radio" id="r5" name="review[rating]" value="5"><label for="r5" title="5 stars">★</label>
-          </div>
+      <div class="mb-3">
+        <label class="form-label">Rating</label>
+        <div class="star-row" aria-hidden="false">
+          <input type="radio" id="r1" name="review[rating]" value="1" /><label
+            for="r1"
+            title="1 star"
+            >★</label
+          >
+          <input type="radio" id="r2" name="review[rating]" value="2" /><label
+            for="r2"
+            title="2 stars"
+            >★</label
+          >
+          <input type="radio" id="r3" name="review[rating]" value="3" /><label
+            for="r3"
+            title="3 stars"
+            >★</label
+          >
+          <input type="radio" id="r4" name="review[rating]" value="4" /><label
+            for="r4"
+            title="4 stars"
+            >★</label
+          >
+          <input type="radio" id="r5" name="review[rating]" value="5" /><label
+            for="r5"
+            title="5 stars"
+            >★</label
+          >
         </div>
+      </div>
 
-        <div style="display:flex;gap:10px;align-items:center;">
-          <button class="btn-primary-cta" type="submit">Submit review</button>
-          <div class="muted-small">Your review will appear after approval.</div>
-        </div>
-      </form>
-    </div>
+      <div style="display: flex; gap: 10px; align-items: center">
+        <button class="btn-primary-cta" type="submit">Submit review</button>
+        <div class="muted-small">Your review will appear after approval.</div>
+      </div>
+    </form>
+  </div>
   <% } %>
-
 </div>
 
 <!-- Client JS: gallery, star UI and map -->
+
 <script>
+  function back() {
+    window.history.back();
+  }
+  (function () {
+    const mainImg = document.getElementById("mainImage");
+    const thumbs = document.querySelectorAll(".thumb");
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        // Remove active class from all
+        thumbs.forEach((t) => t.classList.remove("active"));
+        thumb.classList.add("active");
+
+        // Animate fade effect for main image
+        mainImg.style.opacity = 0;
+        setTimeout(() => {
+          mainImg.src = thumb.dataset.src;
+          mainImg.style.opacity = 1;
+        }, 150);
+      });
+    });
+  })();
+
   // ===== gallery thumbnail click swap =====
-  (function(){
-    const main = document.getElementById('mainImage');
-    const thumbs = document.querySelectorAll('.thumb-img');
-    thumbs.forEach(t => {
-      t.addEventListener('click', () => {
-        thumbs.forEach(x => x.classList.remove('active'));
-        t.classList.add('active');
+  (function () {
+    const main = document.getElementById("mainImage");
+    const thumbs = document.querySelectorAll(".thumb-img");
+    thumbs.forEach((t) => {
+      t.addEventListener("click", () => {
+        thumbs.forEach((x) => x.classList.remove("active"));
+        t.classList.add("active");
         const src = t.dataset.src || t.src;
         main.src = src;
       });
@@ -371,16 +693,16 @@
   })();
 
   // ===== star visual toggle for review form =====
-  (function(){
-    const labels = document.querySelectorAll('.star-row label');
-    labels.forEach(l => {
-      l.addEventListener('click', () => {
-        labels.forEach(x => x.classList.remove('checked'));
-        l.classList.add('checked');
+  (function () {
+    const labels = document.querySelectorAll(".star-row label");
+    labels.forEach((l) => {
+      l.addEventListener("click", () => {
+        labels.forEach((x) => x.classList.remove("checked"));
+        l.classList.add("checked");
         // mark previous labels to create filled-star visual
         let prev = l.previousElementSibling;
-        while(prev){
-          if(prev.tagName === 'LABEL') prev.classList.add('checked');
+        while (prev) {
+          if (prev.tagName === "LABEL") prev.classList.add("checked");
           prev = prev.previousElementSibling;
         }
       });
@@ -388,41 +710,44 @@
   })();
 
   // ===== Map initialization using MapTiler (or gracefully show fallback) =====
-  (function(){
-    const mapContainer = document.getElementById('map');
+  (function () {
+    const mapContainer = document.getElementById("map");
     if (!mapContainer) return;
 
-    if (!mapToken || mapToken === '') {
-      mapContainer.innerHTML = '<div style="padding:20px;color:#374151">Map not available — MAPTILER_API_KEY not set.</div>';
+    if (!mapToken || mapToken === "") {
+      mapContainer.innerHTML =
+        '<div style="padding:20px;color:#374151">Map not available — MAPTILER_API_KEY not set.</div>';
       return;
     }
     // if listing has geometry coordinates use them
     try {
       const coords = listing.geometry && listing.geometry.coordinates;
       if (!coords || coords.length < 2) {
-        mapContainer.innerHTML = '<div style="padding:20px;color:#374151">No coordinates available for this listing.</div>';
+        mapContainer.innerHTML =
+          '<div style="padding:20px;color:#374151">No coordinates available for this listing.</div>';
         return;
       }
       // inject MapLibre + MapTiler CSS/JS
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css';
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css";
       document.head.appendChild(link);
 
-      const script = document.createElement('script');
-      script.src = 'https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js';
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js";
       script.onload = () => {
         const map = new maplibregl.Map({
-          container: 'map',
+          container: "map",
           style: `https://api.maptiler.com/maps/streets/style.json?key=${mapToken}`,
           center: [coords[0], coords[1]],
-          zoom: 10
+          zoom: 10,
         });
         new maplibregl.Marker().setLngLat([coords[0], coords[1]]).addTo(map);
       };
       document.body.appendChild(script);
-    } catch(e){
-      mapContainer.innerHTML = '<div style="padding:20px;color:#374151">Map failed to load.</div>';
+    } catch (e) {
+      mapContainer.innerHTML =
+        '<div style="padding:20px;color:#374151">Map failed to load.</div>';
       console.error(e);
     }
   })();

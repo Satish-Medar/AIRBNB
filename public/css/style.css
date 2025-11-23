@@ -1,3 +1,16 @@
+/* Sticky footer layout */
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.site-footer {
+  width: 100%;
+  background: #ebebeb;
+  margin-top: auto;
+  /* Optional: add shadow or border for separation */
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.03);
+}
 .body,
 body {
   background-color: #fff;

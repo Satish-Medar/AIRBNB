@@ -16,7 +16,7 @@ module.exports = {
     }
     next();
   },
-};
+}
 
 module.exports.saveRedirectUrl = (req, res, next) => {
   // Prefer redirect stored in session, otherwise default to listings index

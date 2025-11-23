@@ -12,9 +12,10 @@ module.exports.createReview = async (req, res) => {
 
   const newReview = new Review(req.body.review);
   newReview.author = req.user._id;
-  listing.reviews.push(newReview);
 
   await newReview.save();
+
+  listing.reviews.push(newReview._id); // IMPORTANT FIX
   await listing.save();
 
   req.flash("success", "Review added successfully!");

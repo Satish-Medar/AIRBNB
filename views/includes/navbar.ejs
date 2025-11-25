@@ -154,6 +154,15 @@
     align-items: center;
     justify-content: center;
   }
+  .search-bar {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  .search-bar > * {
+    min-width: 0; /* prevents children from forcing overflow */
+  }
 
   /* --- Responsive --- */
   @media (max-width: 992px) {
@@ -182,6 +191,38 @@
   }
   a {
     color: black;
+  }
+  @media (max-width: 791px) {
+    /* hide the Where, Check-in/out, Who boxes */
+    .search-section {
+      display: none;
+    }
+
+    .search-bar {
+      height: 48px;
+      border-radius: 25px;
+      padding-right: 6px;
+      align-items: center;
+    }
+
+    .search-bar form {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    #searchInput {
+      width: 100%;
+      min-width: 0;
+      font-size: 0.9rem;
+    }
+
+    .search-submit-btn {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 50%;
+    }
   }
 </style>
 <nav class="navbar-airbnb sticky-top">
